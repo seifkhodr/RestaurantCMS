@@ -281,17 +281,17 @@ The system uses **7 relational tables** with proper foreign keys and constraints
 
 ```mermaid
 erDiagram
-    Users ||--o{ Reservations : makes
-    Users ||--o{ Feedbacks : writes
-    Menus ||--|{ Items : contains
-    Items ||--o{ ItemPhotos : has
-    RestaurantTables ||--o{ Reservations : booked_for
-    Reservations ||--o{ Feedbacks : referenced_by
+    Users ||--o{ Reservations : "makes"
+    Users ||--o{ Feedbacks : "writes"
+    Menus ||--|{ Items : "contains"
+    Items ||--o{ ItemPhotos : "has"
+    RestaurantTables ||--o{ Reservations : "booked_for"
+    Reservations ||--o{ Feedbacks : "referenced_by"
 
     Users {
         int UserId PK
         string FullName
-        string Email UK
+        string Email
         string PasswordHash
         string Role
         bit IsEmailVerified
@@ -325,7 +325,7 @@ erDiagram
 
     RestaurantTables {
         int TableId PK
-        string TableNumber UK
+        string TableNumber
         int SeatingCapacity
         string Location
     }
@@ -358,26 +358,26 @@ erDiagram
 
 ```mermaid
 flowchart TD
-    A[User visits site] --> B{Logged in?}
-    B -->|Session exists| C[Load user from DB]
-    B -->|No session| D{Remember-Me cookie?}
-    D -->|Valid token| E[Restore session from cookie]
-    D -->|No cookie| F[Show as guest]
+    A["User visits site"] --> B{"Logged in?"}
+    B -->|"Session exists"| C["Load user from DB"]
+    B -->|"No session"| D{"Remember-Me cookie?"}
+    D -->|"Valid token"| E["Restore session from cookie"]
+    D -->|"No cookie"| F["Show as guest"]
 
-    C --> G{Role?}
+    C --> G{"Role?"}
     E --> G
-    G -->|Admin| H[Admin Dashboard]
-    G -->|Client| I[Client Portal]
+    G -->|"Admin"| H["Admin Dashboard"]
+    G -->|"Client"| I["Client Portal"]
 
-    F --> J[Login Page]
-    J --> K{Credentials valid?}
-    K -->|Yes| L{Email verified?}
-    K -->|No| M[Show error]
-    L -->|Yes| N[Create session]
-    L -->|No| O[Send verification email]
-    N --> P{Remember Me checked?}
-    P -->|Yes| Q[Create auth cookie + DB token]
-    P -->|No| G
+    F --> J["Login Page"]
+    J --> K{"Credentials valid?"}
+    K -->|"Yes"| L{"Email verified?"}
+    K -->|"No"| M["Show error"]
+    L -->|"Yes"| N["Create session"]
+    L -->|"No"| O["Send verification email"]
+    N --> P{"Remember Me checked?"}
+    P -->|"Yes"| Q["Create auth cookie + DB token"]
+    P -->|"No"| G
     Q --> G
 ```
 
